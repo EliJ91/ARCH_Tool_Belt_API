@@ -1,0 +1,33 @@
+
+###
+POST http://localhost:5000/api/v1/user/create
+Content-Type: application/json
+
+{
+    "email": "testuser2@gmail.com",
+    "password": "pashword",
+    "owner": false
+}
+
+###
+POST http://localhost:5000/api/user/login
+Content-Type: application/json
+
+{
+    "username": "test",
+    "password": "t"
+}
+
+
+
+#without valid cookie
+###
+POST http://localhost:5000/api/user/testauth
+Cookie: ggg
+
+
+###
+#with valid cookie
+POST http://localhost:5000/api/user/testauth
+Cookie: eyJhbGciOiJIUzI1NiJ9.dGVzdA.E9EpnvqwFgmHvu5gV7WwwsSlQe9sPrXASrx2QGI9jsI
+request.cookies.clear
