@@ -4,8 +4,6 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors')
-const fileUpload = require('express-fileupload')
-const cookieParser = require('cookie-parser')
 
 //---------------------------------------END OF IMPORTS-----------------------------------------
 
@@ -20,20 +18,18 @@ app.listen(PORT, ()=> console.log(`Server Started on port ${PORT}`))
 
 //---------------------------------------END OF DB CONNECTION-----------------------------------------
 var corsOptions = {
-  origin: process.env.WEB_HOST,
-  credentials: true };
+  origin: process.env.WEB_HOST};
 app.use(cors(corsOptions))
 app.use(express.json())
-app.use(fileUpload())
-app.use(cookieParser())
 //---------------------------------------END OF MIDDLEWARE-----------------------------------------
 app.get('/', (req, res) => {res.send('API Status: Running')})
 
 const UserRouter = require('./routes/users.routes')
 app.use('/api/user', UserRouter)
 
-const VideoRouter = require('./routes/videos.routes')
-app.use('/api/video', VideoRouter)
+const CaravanReportsRouter = require('./routes/caravanReports.routes')
+app.use('/api/caravan_report', CaravanReportsRouter)
+
 //---------------------------------------END OF ROUTES-----------------------------------------
 
 
