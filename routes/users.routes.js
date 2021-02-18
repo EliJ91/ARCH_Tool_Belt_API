@@ -50,7 +50,7 @@ router.post('/create', async (req, res) => {
     }
   } catch (err) {
     console.log(err)
-    
+
   }
 })
 
@@ -60,7 +60,7 @@ router.post('/login', async (req, res, ) => {
     try {
       const username = req.body.username
       const password = req.body.password
-  
+
       if (!username || !password) {
         return res.status(400).json({ msg: 'Please enter required fields' })
       }
@@ -83,7 +83,7 @@ router.post('/login', async (req, res, ) => {
           }
           loginUser.password = undefined
           const accessToken = jwt.sign(loginUser.username, process.env.JWT_SECRET)
-          res.cookie('token', accessToken, { httpOnly:true, maxAge: 1000 * 3600 * 24 * 30})
+          res.cookie('token', accessToken, { httpOnly:true, sameSite: "None", secure: true, maxAge: 1000 * 3600 * 24 * 30})
           res.status(200).json(loginUser)
           res.end()
         })
@@ -103,16 +103,16 @@ router.post('/stayLogged', auth, async (req,res)=>{
   console.log("Stay Logged")
   const decoded = jwt.decode(token, process.env.JWT_SECRET)
   User.findOne({username:decoded}, function (err, user){
-    if(err){res.send(err).end()}  
-    res.send(user).end() 
+    if(err){res.send(err).end()}
+    res.send(user).end()
   })
 })
 
 router.get('/getUser', async (req,res)=>{
   User.findById(req.query.Id, function (err, user){
-    if(err){res.send(err).end()}  
+    if(err){res.send(err).end()}
     //user.password = undefined
-    res.send(user).end() 
+    res.send(user).end()
   })
 })
 
@@ -120,7 +120,7 @@ router.post('/test', async (req,res)=>{
   console.log("test")
 })
 
- 
+
 module.exports = router
 
 
