@@ -4,6 +4,7 @@ const NewCaravanReportSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
+        unique: false
       },
       guild: {
         type: String,
@@ -22,7 +23,7 @@ const NewCaravanReportSchema = new mongoose.Schema({
           required: true
       },
       date: {
-          type: Array,
+          type: Number,
           required: true
       },
       type: {

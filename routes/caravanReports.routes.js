@@ -54,25 +54,21 @@ router.post('/create', async (req, res) => {
 })
 
 
-//-----------------------------------------------Create Caravan Report-----------------------------------------//
+//-----------------------------------------------CREATE CARAVAN REPORT-----------------------------------------//
 router.post('/report', async (req, res) => {
     try {
-        console.log(req.body)
         const {username, guild, image} = req.body
       if (!username || !guild || !image) {
         return res.status(400).json({ msg: 'Please enter required fields' })
       }else{
         let date = new Date();
-        let month = date.getMonth()+1
-        let day = date.getDate()
-        let year = date.getFullYear()
         createdCaravanReport = new CaravanReport({
             username,
             guild,
             image,
             fine : 0,
             paid : false,
-            date : [month,day,year],
+            date : date,
             type : "Caravan",
             notes: ""
           })
@@ -86,11 +82,10 @@ router.post('/report', async (req, res) => {
       console.log(err)
     }
   })
-//-----------------------------------------------LOG OUT USER-----------------------------------------//
+//-----------------------------------------------GET ALL CARAVAN REPORTS-----------------------------------------//
 
 router.get('/caravanreports', async (req,res)=>{
     let allDocuments = await CaravanReport.find()
-    console.log(allDocuments)
     if(allDocuments){
         res.json([allDocuments])
     }else{
@@ -98,21 +93,49 @@ router.get('/caravanreports', async (req,res)=>{
     }
 })
 
-router.get('/test', async (req,res)=>{
-    x = true
-    if(x){
-        return {
-            statusCode: 200,
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Methods": "*"
-            },
-            body: "good"
-        }
-    }else{
-        console.log("Error")
+router.get('/updatepaid', async (req,res)=>{
+  const {value, id} = req.query
+  await CaravanReport.findByIdAndUpdate({_id: id},{"paid": value}, function(err, result){
+    if(err){
+        res.send(err)
     }
+  })
+  let allDocuments = await CaravanReport.find()
+  if(allDocuments){
+      res.json([allDocuments])
+  }else{
+      console.log("Error")
+  }
+})
+
+router.get('/updatefine', async (req,res)=>{
+  const {value, id} = req.query
+  await CaravanReport.findByIdAndUpdate({_id: id},{"fine": value}, function(err, result){
+    if(err){
+        res.send(err)
+    }
+  })
+  let allDocuments = await CaravanReport.find()
+  if(allDocuments){
+      res.json([allDocuments])
+  }else{
+      console.log("Error")
+  }
+})
+
+router.get('/updatenote', async (req,res)=>{
+  const {value, id} = req.query
+  await CaravanReport.findByIdAndUpdate({_id: id},{"notes": value}, function(err, result){
+    if(err){
+        res.send(err)
+    }
+  })
+  let allDocuments = await CaravanReport.find()
+  if(allDocuments){
+      res.json([allDocuments])
+  }else{
+      console.log("Error")
+  }
 })
 
  

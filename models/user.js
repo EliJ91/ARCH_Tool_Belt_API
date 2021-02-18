@@ -10,23 +10,10 @@ const NewUserSchema = new mongoose.Schema({
         type: String,
         required: true
       },
-      recentMetaData: {
-        type: Array,
-        required: false
-      },
-      subscribers: {
-        type: Array,
-        required: false
-      },
-      subscribedTo: {
-        type: Array,
-        required: false
-      },
-      avatar:{
-        type: String,
+      approved: {
+        type: Boolean,
         required: false
       }
-      
     })
     const userModel = mongoose.model('NewUsers', NewUserSchema)
     module.exports = userModel

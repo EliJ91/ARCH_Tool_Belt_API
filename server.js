@@ -8,7 +8,7 @@ const cors = require('cors')
 //---------------------------------------END OF IMPORTS-----------------------------------------
 
 
-mongoose.connect(process.env.MONGO_URI,{ useUnifiedTopology: true, useNewUrlParser: true })
+mongoose.connect(process.env.MONGO_URI,{useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true })
 const db = mongoose.connection
 mongoose.set('useCreateIndex', true)
 db.on('error', (error)=> console.error(error))

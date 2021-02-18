@@ -21,7 +21,8 @@ const User = require('../models/user');
 
 //--------------------------------------------CREATE NEW USER---------------------------------------//
 router.post('/create', async (req, res) => {
-  const {username, password, avatar} = req.body
+  console.log("API HIT")
+  const {username, password} = req.body
   try {
     let createdUser = await User.findOne({
       username
@@ -37,8 +38,7 @@ router.post('/create', async (req, res) => {
     } else {
       createdUser = new User({
         username,
-        password,
-        avatar
+        password
       })
       const salt = await bcrypt.genSalt(10)
 
