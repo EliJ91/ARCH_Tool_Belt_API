@@ -83,7 +83,7 @@ router.post('/login', async (req, res, ) => {
           }
           loginUser.password = undefined
           const accessToken = jwt.sign(loginUser.username, process.env.JWT_SECRET)
-          res.cookie('token', accessToken, { httpOnly:true})
+          res.cookie('token', accessToken, { httpOnly:true, maxAge: 1000 * 3600 * 24 * 30})
           res.status(200).json(loginUser)
           res.end()
         })
@@ -95,10 +95,10 @@ router.post('/login', async (req, res, ) => {
   })
 //-----------------------------------------------LOG OUT USER-----------------------------------------//
 router.post('/logout', async (req,res)=>{
-  res.clearCookie('token', { httpOnly:true, sameSite: "None", secure: true}).end()
+  res.clearCookie('token', { httpOnly:true}).end()
 })
 //-----------------------------------------------STAY LOGGED-----------------------------------------//
-router.get('/stayLogged', auth, async (req,res)=>{
+router.post('/stayLogged', auth, async (req,res)=>{
   const token = req.cookies.token
   console.log("Stay Logged")
   const decoded = jwt.decode(token, process.env.JWT_SECRET)
