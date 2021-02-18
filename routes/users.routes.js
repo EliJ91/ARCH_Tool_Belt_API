@@ -38,7 +38,8 @@ router.post('/create', async (req, res) => {
     } else {
       createdUser = new User({
         username,
-        password
+        password,
+        approved: false
       })
       const salt = await bcrypt.genSalt(10)
 
@@ -55,7 +56,7 @@ router.post('/create', async (req, res) => {
 
 
 //-----------------------------------------------LOGIN USER-----------------------------------------//
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, ) => {
     try {
       const username = req.body.username
       const password = req.body.password
@@ -82,8 +83,8 @@ router.post('/login', async (req, res) => {
           }
           loginUser.password = undefined
           const accessToken = jwt.sign(loginUser.username, process.env.JWT_SECRET)
-          res.cookie('token', accessToken, { httpOnly:true, sameSite: "None", secure: true})
-          res.status(201).json(loginUser)
+          res.cookie('token', accessToken, { httpOnly:true})
+          res.status(200).json(loginUser)
           res.end()
         })
       }
@@ -96,9 +97,10 @@ router.post('/login', async (req, res) => {
 router.post('/logout', async (req,res)=>{
   res.clearCookie('token', { httpOnly:true, sameSite: "None", secure: true}).end()
 })
-//-----------------------------------------------LOG OUT USER-----------------------------------------//
-router.post('/stayLogged', auth, async (req,res)=>{
+//-----------------------------------------------STAY LOGGED-----------------------------------------//
+router.get('/stayLogged', auth, async (req,res)=>{
   const token = req.cookies.token
+  console.log("Stay Logged")
   const decoded = jwt.decode(token, process.env.JWT_SECRET)
   User.findOne({username:decoded}, function (err, user){
     if(err){res.send(err).end()}  
@@ -112,6 +114,10 @@ router.get('/getUser', async (req,res)=>{
     //user.password = undefined
     res.send(user).end() 
   })
+})
+
+router.post('/test', async (req,res)=>{
+  console.log("test")
 })
 
  

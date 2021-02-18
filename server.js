@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
 //---------------------------------------END OF IMPORTS-----------------------------------------
 
@@ -18,9 +19,12 @@ app.listen(PORT, ()=> console.log(`Server Started on port ${PORT}`))
 
 //---------------------------------------END OF DB CONNECTION-----------------------------------------
 var corsOptions = {
-  origin: process.env.WEB_HOST};
+  credentials: true,
+  origin: process.env.WEB_HOST
+  };
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use(cookieParser())
 //---------------------------------------END OF MIDDLEWARE-----------------------------------------
 app.get('/', (req, res) => {res.send('API Status: Running')})
 
