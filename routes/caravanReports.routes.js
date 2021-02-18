@@ -54,8 +54,11 @@ router.post('/create', async (req, res) => {
 })
 
 
+
 //-----------------------------------------------CREATE CARAVAN REPORT-----------------------------------------//
-router.post('/report', async (req, res) => {
+
+
+router.post('/report',  async (req, res, next) => {
     try {
         const {username, guild, image} = req.body
       if (!username || !guild || !image) {
@@ -137,6 +140,8 @@ router.get('/updatenote', async (req,res)=>{
       console.log("Error")
   }
 })
+
+
 
 
 module.exports = router
