@@ -49,7 +49,7 @@ router.post('/create', async (req, res) => {
     }
   } catch (err) {
     console.log(err)
-    
+
   }
 })
 
@@ -138,7 +138,7 @@ router.get('/updatenote', async (req,res)=>{
   }
 })
 
- 
+
 module.exports = router
 
 
