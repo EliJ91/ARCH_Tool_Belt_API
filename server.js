@@ -34,6 +34,9 @@ app.use('/api/user', UserRouter)
 const CaravanReportsRouter = require('./routes/caravanReports.routes')
 app.use('/api/caravan_report', CaravanReportsRouter)
 
+const ArchDB = require('./routes/archDB.routes')
+app.use('/api/archDB', ArchDB)
+
 //---------------------------------------END OF ROUTES-----------------------------------------
 
 

@@ -108,17 +108,8 @@ router.post('/stayLogged', auth, async (req,res)=>{
   })
 })
 
-router.get('/getUser', async (req,res)=>{
-  User.findById(req.query.Id, function (err, user){
-    if(err){res.send(err).end()}
-    //user.password = undefined
-    res.send(user).end()
-  })
-})
 
-router.post('/test', async (req,res)=>{
-  console.log("test")
-})
+
 
 
 module.exports = router
