@@ -79,10 +79,7 @@ router.get('/getPlayers', async (req, res) => {
                 i--
               })
     }
-
   }
-
-
   async function savePlayers(){
                     for(let g=0; g<allPlayers.length; g++){
                       process.stdout.write("\r\x1b[K")
@@ -99,11 +96,18 @@ router.get('/getPlayers', async (req, res) => {
                   }
                   console.log("\nUpdated Player Base!")
   }
-
-
-
   res.end()
-
+})
+//=================================================//
+router.post('/checkinfo', async (req, res) => {
+ const {Name, GuildName} = req.body
+ let playerFound = await Player.findOne({Name: new RegExp('\\b' + Name + '\\b', 'i')})
+ let guildFound = await Guild.findOne({Name: new RegExp('\\b' + GuildName + '\\b', 'i')})
+ if(guildFound && playerFound){
+   res.status(200).send(true).end()
+ }else{
+  res.status(404).send(false).end()
+ }
 })
 
 
