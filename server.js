@@ -37,6 +37,9 @@ app.use('/api/caravan_report', CaravanReportsRouter)
 const ArchDB = require('./routes/archDB.routes')
 app.use('/api/archDB', ArchDB)
 
+const GuildComs = require('./routes/guildComs.routes')
+app.use('/api/coms', GuildComs)
+
 //---------------------------------------END OF ROUTES-----------------------------------------
 
 

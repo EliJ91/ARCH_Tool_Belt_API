@@ -110,6 +110,53 @@ router.post('/checkinfo', async (req, res) => {
  }
 })
 
+router.post('/addplayer', async (req, res) => {
+  const NameArgument = req.body.Name
+  let player;
+    await axios.get("https://gameinfo.albiononline.com/api/gameinfo/search?q="+NameArgument).then(function (res){
+          player = res.data.players.find(player=>player.Name.toLowerCase() === NameArgument.toLowerCase())
+      }).catch(function (err){
+        res.status(404).send({msg:`${NameArgument} was not found to be an Albion Player.`}).end()
+      })
+      if(player){
+        const {Name,Id,GuildName,GuildId,AllianceName,AllianceId} = player
+        let playerFound = await Player.findOne({Name: new RegExp('\\b' + Name + '\\b', 'i')})
+        if(playerFound){
+          res.status(422).send({
+                msg: `${Name} already exists in the database.`
+          }).end()
+        }else{
+          let player = new Player({Name,Id,GuildName,GuildId,AllianceName,AllianceId})
+          await player.save()
+          res.status(201).send({
+            msg: `${Name} added to the database.`
+          }).end()
+        }
+      }else{
+        res.status(404).send({msg:`${NameArgument} was not found to be an Albion Player.`}).end()
+      }
+ })
+
+ router.post('/checkplayerguild', async (req, res) => {
+  const {Name} = req.body
+  let playerFound = await Player.findOne({Name: new RegExp('\\b' + Name + '\\b', 'i')})
+  if(playerFound){
+    res.status(200).send(playerFound).end()
+  }else{
+   res.status(404).end()
+  }
+ })
+
+ router.get('/getallguilds', async (req, res) => {
+  let allGuilds = await Guild.find()
+  if(allGuilds){
+    res.status(200).send(allGuilds).end()
+  }else{
+    console.log(err)
+  }
+ })
+
+
 
 module.exports = router
 
