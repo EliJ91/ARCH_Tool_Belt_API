@@ -22,15 +22,29 @@ const Guild = require('../models/archGuild');
 
  router.post('/set/guildcoms', async (req, res) => {
   const {Guilds} = req.body
-  let guild = new GuildComs({
-    ACCO: Guilds
-  })
-  await guild.save()
-  .then(function (res){
-    console.log(res)
-  }).catch(function (err){
-    console.log(err)
-  })
+
+  if(Guilds){
+    saveGuilds()
+  }else{
+    res.status(400).send({msg:"No Guilds Provided."})
+  }
+
+  function saveGuilds(){
+          GuildComs.deleteMany({})
+            .then(function (){
+              let guild = new GuildComs({
+                ACCO: Guilds
+              })
+              guild.save()
+                .then(function (res){
+                  console.log(res)
+                })
+                  .catch(function (err){
+                    console.log(err)
+                  })
+          })
+          res.status(200).send({msg:"ACCO List Saved!"})
+  }
  })
 
  router.get('/get/guildcoms', async (req, res) => {
