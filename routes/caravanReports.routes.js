@@ -111,9 +111,9 @@ router.get('/updatepaid', async (req,res)=>{
   }
 })
 
-router.get('/updatefine', async (req,res)=>{
-  const {value, id} = req.query
-  await CaravanReport.findByIdAndUpdate({_id: id},{"fine": value}, function(err, result){
+router.post('/updatefine', async (req,res)=>{
+  const {newFine, id} = req.body
+  await CaravanReport.findByIdAndUpdate({_id: id},{"fine": newFine}, function(err, result){
     if(err){
         res.send(err)
     }
